@@ -4,7 +4,7 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
-namespace RLanguage
+namespace RLanguagePackage
 {
     using System;
 

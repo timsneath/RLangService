@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
 using Microsoft.VisualStudio.Package;
 
-namespace RLanguage
+namespace RLanguagePackage
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -30,14 +30,14 @@ namespace RLanguage
     /// To get loaded into VS, the package must be referred by &lt;Asset Type="Microsoft.VisualStudio.VsPackage" ...&gt; in .vsixmanifest file.
     /// </para>
     /// </remarks>
-    [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#1110", "#1112", "1.0", IconResourceID = 1400)] // Info on this package for Help/About
+    //[PackageRegistration(UseManagedResourcesOnly = true)]
+    //[InstalledProductRegistration("#1110", "#1112", "1.0", IconResourceID = 1400)] // Info on this package for Help/About
     [Guid(RPackageGuids.PackageGuidString)]
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
+    //[SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideService(typeof(RLanguageService), ServiceName = "R Language Service")]
-    [ProvideLanguageService(typeof(RLanguageService), "R", 1106, CodeSense = true, RequestStockColors = false, EnableCommenting = true, EnableAsyncCompletion = true)]
     [ProvideLanguageExtension(typeof(RLanguageService), ".R")]
-    [ProvideLanguageCodeExpansion(typeof(RLanguageService), "R", 1106, "rlanguage", @"%InstallRoot%\R\SnippetsIndex.xml")]
+    [ProvideLanguageService(typeof(RLanguageService), "R", 1106, CodeSense = false, EnableCommenting = true, RequestStockColors = true, EnableAsyncCompletion = false)]
+    //[ProvideLanguageCodeExpansion(typeof(RLanguageService), "R Language Service", 1106, "rlanguage", @"%InstallRoot%\R\SnippetsIndex.xml")]
     public class RPackage : Package, IOleComponent
     {
         private uint m_componentID;
@@ -67,6 +67,8 @@ namespace RLanguage
                                               (uint)_OLECADVF.olecadvfWarningsOff;
                 crinfo[0].uIdleTimeInterval = 1000;
                 int hr = mgr.FRegisterComponent(this, crinfo, out m_componentID);
+
+                Debug.WriteLineIf(hr != 0, "hr != 0");
             }
         }
 
@@ -86,11 +88,6 @@ namespace RLanguage
         }
 
         #region IOleComponent Members
-        int IOleComponent.FContinueMessageLoop(uint uReason, IntPtr pvLoopData, MSG[] pMsgPeeked)
-        {
-            return 1;
-        }
-
         int IOleComponent.FDoIdle(uint grfidlef)
         {
             bool bPeriodic = (grfidlef & (uint)_OLEIDLEF.oleidlefPeriodic) != 0;
@@ -103,6 +100,11 @@ namespace RLanguage
             }
 
             return 0;
+        }
+
+        int IOleComponent.FContinueMessageLoop(uint uReason, IntPtr pvLoopData, MSG[] pMsgPeeked)
+        {
+            return 1;
         }
 
         int IOleComponent.FPreTranslateMessage(MSG[] pMsg)

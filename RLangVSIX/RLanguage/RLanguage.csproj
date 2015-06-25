@@ -57,6 +57,7 @@
     <Compile Include="RLanguageService.cs" />
     <Compile Include="RPackage.cs" />
     <Compile Include="RPackageGuids.cs" />
+    <Compile Include="RSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

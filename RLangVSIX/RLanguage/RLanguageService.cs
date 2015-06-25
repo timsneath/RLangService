@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
 
-namespace RLanguage
+namespace RLanguagePackage
 {
     public class RLanguageService : LanguageService
     {
@@ -64,6 +64,11 @@ namespace RLanguage
         public override AuthoringScope ParseSource(ParseRequest req)
         {
             return new RAuthoringScope();
+        }
+
+        public override Source CreateSource(IVsTextLines buffer)
+        {
+            return new RLanguageSource(this, buffer, this.GetColorizer(buffer));
         }
     }
 }

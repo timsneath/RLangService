@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="1106" xml:space="preserve">
-    <value>R Language</value>
+    <value>R</value>
     <comment>used in RPackage.cs</comment>
   </data>
   <data name="1110" xml:space="preserve">

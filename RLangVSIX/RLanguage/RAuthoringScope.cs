@@ -7,7 +7,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
 
-namespace RLanguage
+namespace RLanguagePackage
 {
     public class RAuthoringScope : AuthoringScope
     {
